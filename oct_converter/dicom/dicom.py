@@ -14,6 +14,7 @@ from pydicom.uid import (
     OphthalmicTomographyImageStorage,
     generate_uid,
 )
+from pydicom.valuerep import DSfloat
 
 from oct_converter.dicom.boct_meta import boct_dicom_metadata
 from oct_converter.dicom.e2e_meta import e2e_dicom_metadata
@@ -256,7 +257,7 @@ def write_opt_dicom(
         # Per Frame Functional Groups
         frame_fgs = Dataset()
         frame_fgs.PlanePositionSequence = [Dataset()]
-        ipp = [0, 0, i * meta.image_geometry.slice_thickness]
+        ipp = [0, 0, DSfloat(i * meta.image_geometry.slice_thickness, auto_format=True)]
         frame_fgs.PlanePositionSequence[0].ImagePositionPatient = ipp
         frame_fgs.FrameContentSequence = [Dataset()]
         frame_fgs.FrameContentSequence[0].InStackPositionNumber = i + 1
